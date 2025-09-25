@@ -1,0 +1,211 @@
+export const abi = [
+  { type: "constructor", inputs: [], stateMutability: "nonpayable" },
+  {
+    type: "function",
+    name: "cmxCertificate",
+    inputs: [],
+    outputs: [
+      {
+        name: "",
+        type: "address",
+        internalType: "contract ChemotronixCertificate",
+      },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "cmxToken",
+    inputs: [],
+    outputs: [
+      { name: "", type: "address", internalType: "contract ChemotronixToken" },
+    ],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getPersonalProjectBalance",
+    inputs: [{ name: "projectId", type: "string", internalType: "string" }],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getProjectBalance",
+    inputs: [{ name: "projectId", type: "string", internalType: "string" }],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getProjectRetiredCredits",
+    inputs: [{ name: "projectId", type: "string", internalType: "string" }],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "getTotalRetiredCredits",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "mintNewToken",
+    inputs: [
+      { name: "projectId", type: "string", internalType: "string" },
+      { name: "amount", type: "uint256", internalType: "uint256" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "personalProjectBalance",
+    inputs: [
+      { name: "", type: "address", internalType: "address" },
+      { name: "", type: "string", internalType: "string" },
+    ],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "projectBalance",
+    inputs: [{ name: "", type: "string", internalType: "string" }],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "projectRetiredCredits",
+    inputs: [{ name: "", type: "string", internalType: "string" }],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "retireCredits",
+    inputs: [
+      { name: "projectId", type: "string", internalType: "string" },
+      { name: "amount", type: "uint256", internalType: "uint256" },
+      { name: "tokenURI", type: "string", internalType: "string" },
+    ],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "totalRetiredCredits",
+    inputs: [],
+    outputs: [{ name: "", type: "uint256", internalType: "uint256" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "transferCredits",
+    inputs: [
+      { name: "projectId", type: "string", internalType: "string" },
+      { name: "to", type: "address", internalType: "address" },
+      { name: "amount", type: "uint256", internalType: "uint256" },
+    ],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "function",
+    name: "verifiedProjects",
+    inputs: [{ name: "", type: "string", internalType: "string" }],
+    outputs: [{ name: "", type: "bool", internalType: "bool" }],
+    stateMutability: "view",
+  },
+  {
+    type: "function",
+    name: "verifyProject",
+    inputs: [{ name: "projectId", type: "string", internalType: "string" }],
+    outputs: [],
+    stateMutability: "nonpayable",
+  },
+  {
+    type: "event",
+    name: "creditsMinted",
+    inputs: [
+      { name: "to", type: "address", indexed: true, internalType: "address" },
+      {
+        name: "projectId",
+        type: "string",
+        indexed: false,
+        internalType: "string",
+      },
+      {
+        name: "amount",
+        type: "uint256",
+        indexed: false,
+        internalType: "uint256",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "creditsRetired",
+    inputs: [
+      { name: "by", type: "address", indexed: true, internalType: "address" },
+      {
+        name: "projectId",
+        type: "string",
+        indexed: false,
+        internalType: "string",
+      },
+      {
+        name: "amount",
+        type: "uint256",
+        indexed: false,
+        internalType: "uint256",
+      },
+      {
+        name: "certificateId",
+        type: "uint256",
+        indexed: false,
+        internalType: "uint256",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "creditsTransferred",
+    inputs: [
+      { name: "from", type: "address", indexed: true, internalType: "address" },
+      { name: "to", type: "address", indexed: true, internalType: "address" },
+      {
+        name: "projectId",
+        type: "string",
+        indexed: false,
+        internalType: "string",
+      },
+      {
+        name: "amount",
+        type: "uint256",
+        indexed: false,
+        internalType: "uint256",
+      },
+    ],
+    anonymous: false,
+  },
+  {
+    type: "event",
+    name: "projectVerified",
+    inputs: [
+      {
+        name: "projectId",
+        type: "string",
+        indexed: false,
+        internalType: "string",
+      },
+    ],
+    anonymous: false,
+  },
+];
+// ]

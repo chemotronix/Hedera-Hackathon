@@ -1,33 +1,170 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Coins, CheckCircle, AlertCircle, TrendingUp } from "lucide-react";
+import { abi } from "../constants/abi";
+import { ethers } from "ethers";
 
 const Mint = () => {
   const [mintAmount, setMintAmount] = useState("");
   const [selectedProject, setSelectedProject] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // Wallet connection states
+  const [account, setAccount] = useState<string | null>(null);
+  const [provider, setProvider] =
+    useState<ethers.providers.Web3Provider | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [hasMetamask, setHasMetamask] = useState(false);
+
   const availableProjects = [
-    { id: "solar-alpha", name: "Solar Farm Alpha", available: 850, rate: "1:1" },
-    { id: "forest-conservation", name: "Forest Conservation", available: 1450, rate: "1:1" },
+    {
+      id: "project1",
+      name: "project1",
+      available: 850,
+      rate: "1:1",
+    },
+    {
+      id: "solar-alpha",
+      name: "Solar Farm Alpha",
+      available: 850,
+      rate: "1:1",
+    },
+    {
+      id: "forest-conservation",
+      name: "Forest Conservation",
+      available: 1450,
+      rate: "1:1",
+    },
   ];
 
+  const [minted, setMinted] = useState([
+    {
+      amount: "100 tCO2",
+      project: "Solar Farm Alpha",
+      txHash: "0x1234...5678",
+      status: "confirmed",
+      time: "2 hours ago",
+    },
+    {
+      amount: "250 tCO2",
+      project: "Forest Conservation",
+      txHash: "0x8765...4321",
+      status: "confirmed",
+      time: "1 day ago",
+    },
+    {
+      amount: "75 tCO2",
+      project: "Solar Farm Alpha",
+      txHash: "0x9999...1111",
+      status: "pending",
+      time: "3 days ago",
+    },
+  ]);
+
+  useEffect(() => {
+    checkMetamaskAndConnection();
+  }, []);
+
+  const checkMetamaskAndConnection = async () => {
+    if (typeof window.ethereum !== "undefined") {
+      setHasMetamask(true);
+
+      // Check if already connected
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const accounts = await provider.listAccounts();
+        if (accounts.length > 0) {
+          setAccount(accounts[0]);
+          setProvider(provider);
+          setIsConnected(true);
+        }
+      } catch (error) {
+        console.error("Error checking connection:", error);
+      }
+    }
+  };
+
   const handleMint = async () => {
-    if (!mintAmount || !selectedProject) return;
-    
+    if (!mintAmount || !selectedProject) {
+      alert("Please select a project and anter an amount to mint.");
+      return;
+    }
+
+    if (!isConnected || !provider) {
+      alert("Please connect your wallet first.");
+      return;
+    }
+
     setIsLoading(true);
-    // Simulate minting process
-    setTimeout(() => {
-      setIsLoading(false);
+
+    try {
+      const signer = provider.getSigner();
+      const contractAddress = "0x682dc0bb02e7f985fe6861a5693d2dbd405f396e";
+
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+
+      console.log("Calling verifyProject with:", selectedProject);
+      console.log("Contract address:", contractAddress);
+      console.log("Account:", account);
+
+      // Call the contract method
+
+      await contract.mintNewToken(
+        selectedProject,
+        ethers.utils.parseUnits("8", 18)
+      );
+      console.log("I have minted project1");
+
+      console.log("Transaction confirmed");
+
+      // Add mint to list
+      const newMint = {
+        amount: "10^8 tCO2",
+        project: selectedProject,
+        txHash: "0x1234...5678",
+        status: "confirmed",
+        time: "less than a minute ago",
+      };
+
+      setMinted((prev) => [newMint, ...prev]);
+      // setShowForm(false);
+
       // Reset form
-      setMintAmount("");
       setSelectedProject("");
-    }, 2000);
+      setMintAmount("");
+      // setLocation("");
+      // setCapacity("");
+      // setDescription("");
+
+      alert("Project submitted for verification successfully!");
+      console.log("Project submitted for minting:", selectedProject);
+    } catch (error: any) {
+      console.error("Error verifying project:", error);
+
+      // More specific error messages
+      if (error.code === 4001) {
+        alert("Transaction rejected by user.");
+      } else if (error.code === -32603) {
+        alert("Internal RPC error. Please check your network connection.");
+      } else if (error.message?.includes("insufficient funds")) {
+        alert("Insufficient funds for transaction.");
+      } else {
+        alert(`Error submitting project: ${error.message || error}`);
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -39,7 +176,8 @@ const Mint = () => {
             Mint Carbon Credits
           </h1>
           <p className="text-muted-foreground">
-            Convert verified project capacity into tradeable carbon credit tokens
+            Convert verified project capacity into tradeable carbon credit
+            tokens
           </p>
         </div>
 
@@ -55,7 +193,10 @@ const Mint = () => {
             {/* Project Selection */}
             <div className="space-y-2">
               <Label htmlFor="project">Select Verified Project</Label>
-              <Select value={selectedProject} onValueChange={setSelectedProject}>
+              <Select
+                value={selectedProject}
+                onValueChange={setSelectedProject}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Choose a verified project..." />
                 </SelectTrigger>
@@ -87,7 +228,12 @@ const Mint = () => {
               />
               {selectedProject && (
                 <p className="text-sm text-muted-foreground">
-                  Max available: {availableProjects.find(p => p.id === selectedProject)?.available} tCO2
+                  Max available:{" "}
+                  {
+                    availableProjects.find((p) => p.id === selectedProject)
+                      ?.available
+                  }{" "}
+                  tCO2
                 </p>
               )}
             </div>
@@ -100,7 +246,10 @@ const Mint = () => {
                   <div>
                     <p className="text-muted-foreground">Project</p>
                     <p className="font-medium">
-                      {availableProjects.find(p => p.id === selectedProject)?.name}
+                      {
+                        availableProjects.find((p) => p.id === selectedProject)
+                          ?.name
+                      }
                     </p>
                   </div>
                   <div>
@@ -120,7 +269,7 @@ const Mint = () => {
             )}
 
             {/* Action Button */}
-            <Button 
+            <Button
               onClick={handleMint}
               disabled={!mintAmount || !selectedProject || isLoading}
               className="w-full bg-success hover:bg-success/90 text-success-foreground"
@@ -149,37 +298,24 @@ const Mint = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {[
-                {
-                  amount: "100 tCO2",
-                  project: "Solar Farm Alpha",
-                  txHash: "0x1234...5678",
-                  status: "confirmed",
-                  time: "2 hours ago"
-                },
-                {
-                  amount: "250 tCO2",
-                  project: "Forest Conservation",
-                  txHash: "0x8765...4321",
-                  status: "confirmed",
-                  time: "1 day ago"
-                },
-                {
-                  amount: "75 tCO2",
-                  project: "Solar Farm Alpha",
-                  txHash: "0x9999...1111",
-                  status: "pending",
-                  time: "3 days ago"
-                }
-              ].map((mint, index) => (
-                <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
+              {minted.map((mint, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 border border-border rounded-lg"
+                >
                   <div className="flex items-center gap-3">
-                    <div className={`w-2 h-2 rounded-full ${
-                      mint.status === "confirmed" ? "bg-success" : "bg-yellow-500"
-                    }`} />
+                    <div
+                      className={`w-2 h-2 rounded-full ${
+                        mint.status === "confirmed"
+                          ? "bg-success"
+                          : "bg-yellow-500"
+                      }`}
+                    />
                     <div>
                       <p className="font-medium">Minted {mint.amount}</p>
-                      <p className="text-sm text-muted-foreground">{mint.project}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {mint.project}
+                      </p>
                     </div>
                   </div>
                   <div className="text-right">
@@ -189,14 +325,22 @@ const Mint = () => {
                       ) : (
                         <AlertCircle className="h-4 w-4 text-yellow-500" />
                       )}
-                      <Badge 
-                        variant={mint.status === "confirmed" ? "default" : "secondary"}
-                        className={mint.status === "confirmed" ? "bg-success" : "bg-yellow-500"}
+                      <Badge
+                        variant={
+                          mint.status === "confirmed" ? "default" : "secondary"
+                        }
+                        className={
+                          mint.status === "confirmed"
+                            ? "bg-success"
+                            : "bg-yellow-500"
+                        }
                       >
                         {mint.status}
                       </Badge>
                     </div>
-                    <p className="text-sm text-muted-foreground mt-1">{mint.time}</p>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {mint.time}
+                    </p>
                   </div>
                 </div>
               ))}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,25 +6,144 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { ArrowDownRight, Shield, Lock, Calendar } from "lucide-react";
+import { abi } from "../constants/abi";
+import { ethers } from "ethers";
 
 const Retire = () => {
   const [retireAmount, setRetireAmount] = useState("");
   const [reason, setReason] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
+  // Wallet connection states
+  const [account, setAccount] = useState<string | null>(null);
+  const [provider, setProvider] =
+    useState<ethers.providers.Web3Provider | null>(null);
+  const [isConnected, setIsConnected] = useState(false);
+  const [hasMetamask, setHasMetamask] = useState(false);
+
   const availableCredits = 1250;
 
+  useEffect(() => {
+    checkMetamaskAndConnection();
+  }, []);
+
+  const checkMetamaskAndConnection = async () => {
+    if (typeof window.ethereum !== "undefined") {
+      setHasMetamask(true);
+
+      // Check if already connected
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const accounts = await provider.listAccounts();
+        if (accounts.length > 0) {
+          setAccount(accounts[0]);
+          setProvider(provider);
+          setIsConnected(true);
+        }
+      } catch (error) {
+        console.error("Error checking connection:", error);
+      }
+    }
+  };
+
+  const [retired, setRetired] = useState([
+    {
+      amount: "25 tCO2",
+      reason: "Personal carbon footprint offset",
+      date: "March 15, 2024",
+      certificate: "RET-2024-001234",
+    },
+    {
+      amount: "150 tCO2",
+      reason: "Corporate sustainability commitment",
+      date: "February 28, 2024",
+      certificate: "RET-2024-001189",
+    },
+    {
+      amount: "50 tCO2",
+      reason: "Conference event compensation",
+      date: "January 12, 2024",
+      certificate: "RET-2024-000987",
+    },
+  ]);
+
   const handleRetire = async () => {
-    if (!retireAmount || !reason) return;
-    
+    if (!retireAmount || !reason) {
+      alert("Please sepecify retirement amount and reason");
+      return;
+    }
+
+    if (!isConnected || !provider) {
+      alert("Please connect your wallet first.");
+      return;
+    }
+
     setIsLoading(true);
-    // Simulate retirement process
-    setTimeout(() => {
+
+    try {
+      const signer = provider.getSigner();
+      // const contractAddress = "0x07dac1f0404152a86d1c1a20e3f5438bbb6a45e6";
+      const contractAddress = "0x3b6fe79938f3422bb1a3bf7c672067a83b3c762e";
+
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+
+      // console.log("Calling verifyProject with:", retireAmount);
+      // console.log("Contract address:", contractAddress);
+      // console.log("Account:", account);
+      // console.log("Provider:", provider);
+      // console.log("Signer:", signer);
+
+      // retire credit function retireCredits
+      // await contract.retireCredits("project1").then((balance: any) => {
+      //   console.log("Project 1 balance:", balance.toString());
+      // });
+      // console.log("I have minted project1");
+      // Example params
+      console.log("Retire amount:", retireAmount);
+      console.log("Retire reason:", reason);
+      const projectId = "project1";
+      const amount = ethers.utils.parseUnits(retireAmount, 18); // 10 CMX tokens (assuming 18 decimals)
+      const tokenURI =
+        "https://bafybeia6hmpwrqnycg6p7rzpf22euw3da7nm53jgppanevvc5igg6voudm.ipfs.w3s.link/cert1.webp"; // your metadata link
+
+      const tx = await contract.retireCredits(projectId, amount, tokenURI);
+      const receipt = await tx.wait();
+
+      console.log("Credits retired! Tx:", receipt.transactionHash);
+
+      console.log("Transaction confirmed");
+
+      // Add new retired  to list
+      const newRetired = {
+        amount: retireAmount,
+        reason: reason,
+        date: new Date().toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }),
+        certificate: "RET-2024-001234",
+      };
+
+      setRetired((prev) => [newRetired, ...prev]);
+
+      alert("Project retired successfully!");
+    } catch (error: any) {
+      console.error("Error verifying project:", error);
+
+      // More specific error messages
+      if (error.code === 4001) {
+        alert("Transaction rejected by user.");
+      } else if (error.code === -32603) {
+        alert("Internal RPC error. Please check your network connection.");
+      } else if (error.message?.includes("insufficient funds")) {
+        alert("Insufficient funds for transaction.");
+      } else {
+        alert(`Error submitting project: ${error.message || error}`);
+      }
+    } finally {
       setIsLoading(false);
-      // Reset form
-      setRetireAmount("");
-      setReason("");
-    }, 2000);
+    }
   };
 
   return (
@@ -100,12 +219,16 @@ const Retire = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                   <div>
                     <p className="text-muted-foreground">CO2 Offset</p>
-                    <p className="font-bold text-climate">{retireAmount} tons</p>
+                    <p className="font-bold text-climate">
+                      {retireAmount} tons
+                    </p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">Equivalent to</p>
                     <p className="font-bold text-climate">
-                      ~{Math.round(Number(retireAmount) * 2200).toLocaleString()} miles driven
+                      ~
+                      {Math.round(Number(retireAmount) * 2200).toLocaleString()}{" "}
+                      miles driven
                     </p>
                   </div>
                 </div>
@@ -121,14 +244,15 @@ const Retire = () => {
                     Permanent Action
                   </p>
                   <p className="text-yellow-700 dark:text-yellow-300">
-                    Once retired, these credits cannot be traded or transferred. This action is irreversible.
+                    Once retired, these credits cannot be traded or transferred.
+                    This action is irreversible.
                   </p>
                 </div>
               </div>
             </div>
 
             {/* Action Button */}
-            <Button 
+            <Button
               onClick={handleRetire}
               disabled={!retireAmount || !reason || isLoading}
               className="w-full bg-climate hover:bg-climate/90 text-climate-foreground"
@@ -154,38 +278,30 @@ const Retire = () => {
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
-              {[
-                {
-                  amount: "25 tCO2",
-                  reason: "Personal carbon footprint offset",
-                  date: "March 15, 2024",
-                  certificate: "RET-2024-001234"
-                },
-                {
-                  amount: "150 tCO2",
-                  reason: "Corporate sustainability commitment",
-                  date: "February 28, 2024",
-                  certificate: "RET-2024-001189"
-                },
-                {
-                  amount: "50 tCO2",
-                  reason: "Conference event compensation",
-                  date: "January 12, 2024",
-                  certificate: "RET-2024-000987"
-                }
-              ].map((retirement, index) => (
-                <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
+              {retired.map((retirement, index) => (
+                <div
+                  key={index}
+                  className="flex items-center justify-between p-4 border border-border rounded-lg"
+                >
                   <div>
                     <div className="flex items-center gap-2 mb-1">
                       <Lock className="h-4 w-4 text-climate" />
                       <p className="font-medium">Retired {retirement.amount}</p>
                     </div>
-                    <p className="text-sm text-muted-foreground mb-1">{retirement.reason}</p>
-                    <p className="text-xs text-muted-foreground">Certificate: {retirement.certificate}</p>
+                    <p className="text-sm text-muted-foreground mb-1">
+                      {retirement.reason}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      Certificate: {retirement.certificate}
+                    </p>
                   </div>
                   <div className="text-right">
-                    <Badge variant="secondary" className="mb-2">Permanent</Badge>
-                    <p className="text-sm text-muted-foreground">{retirement.date}</p>
+                    <Badge variant="secondary" className="mb-2">
+                      Permanent
+                    </Badge>
+                    <p className="text-sm text-muted-foreground">
+                      {retirement.date}
+                    </p>
                   </div>
                 </div>
               ))}
