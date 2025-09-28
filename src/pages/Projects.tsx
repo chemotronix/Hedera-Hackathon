@@ -278,7 +278,6 @@ const Projects = () => {
             {/* only admin can create a new project */}
             <Button
               onClick={() => setShowForm(true)}
-              r
               className="gradient-hero text-primary-foreground"
               disabled={!isConnected}
             >
