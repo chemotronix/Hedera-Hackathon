@@ -691,7 +691,7 @@ export default function Dashboard() {
           <Card className="gradient-card border-success/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Project Balance
+                Project 1 Balance
               </CardTitle>
               <Button
                 variant="ghost"
@@ -727,7 +727,7 @@ export default function Dashboard() {
           <Card className="gradient-card border-climate/20">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium">
-                Retired Credits
+                Project 1 Retired Credits
               </CardTitle>
               <Button
                 variant="ghost"
