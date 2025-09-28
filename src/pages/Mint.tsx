@@ -30,18 +30,18 @@ const Mint = () => {
   const availableProjects = [
     {
       id: "project1",
-      name: "project1",
+      name: "Solar",
       available: 850,
       rate: "1:1",
     },
     {
-      id: "solar-alpha",
+      id: "project2",
       name: "Solar Farm Alpha",
       available: 850,
       rate: "1:1",
     },
     {
-      id: "forest-conservation",
+      id: "project3",
       name: "Forest Conservation",
       available: 1450,
       rate: "1:1",
@@ -50,21 +50,21 @@ const Mint = () => {
 
   const [minted, setMinted] = useState([
     {
-      amount: "100 tCO2",
+      amount: "100 CMX",
       project: "Solar Farm Alpha",
       txHash: "0x1234...5678",
       status: "confirmed",
       time: "2 hours ago",
     },
     {
-      amount: "250 tCO2",
+      amount: "250 CMX",
       project: "Forest Conservation",
       txHash: "0x8765...4321",
       status: "confirmed",
       time: "1 day ago",
     },
     {
-      amount: "75 tCO2",
+      amount: "75 CMX",
       project: "Solar Farm Alpha",
       txHash: "0x9999...1111",
       status: "pending",
@@ -122,7 +122,7 @@ const Mint = () => {
 
       await contract.mintNewToken(
         selectedProject,
-        ethers.utils.parseUnits("8", 18)
+        ethers.utils.parseUnits(mintAmount, 18)
       );
       console.log("I have minted project1");
 
@@ -130,7 +130,7 @@ const Mint = () => {
 
       // Add mint to list
       const newMint = {
-        amount: "10^8 tCO2",
+        amount: "10^8 CMX",
         project: selectedProject,
         txHash: "0x1234...5678",
         status: "confirmed",
@@ -206,7 +206,7 @@ const Mint = () => {
                       <div className="flex items-center justify-between w-full">
                         <span>{project.name}</span>
                         <Badge variant="secondary" className="ml-2">
-                          {project.available} tCO2 available
+                          {project.available} CMX available
                         </Badge>
                       </div>
                     </SelectItem>
@@ -217,7 +217,7 @@ const Mint = () => {
 
             {/* Amount Input */}
             <div className="space-y-2">
-              <Label htmlFor="amount">Amount to Mint (tCO2)</Label>
+              <Label htmlFor="amount">Amount to Mint (CMX)</Label>
               <Input
                 id="amount"
                 type="number"
@@ -233,7 +233,7 @@ const Mint = () => {
                     availableProjects.find((p) => p.id === selectedProject)
                       ?.available
                   }{" "}
-                  tCO2
+                  CMX
                 </p>
               )}
             </div>
@@ -254,7 +254,7 @@ const Mint = () => {
                   </div>
                   <div>
                     <p className="text-muted-foreground">Amount</p>
-                    <p className="font-medium">{mintAmount} tCO2</p>
+                    <p className="font-medium">{mintAmount} CMX</p>
                   </div>
                   <div>
                     <p className="text-muted-foreground">Rate</p>

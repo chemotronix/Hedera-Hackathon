@@ -45,7 +45,7 @@ const Projects = () => {
       name: "Solar Farm Alpha",
       type: "Solar Energy",
       location: "California, USA",
-      capacity: "1,200 tCO2/year",
+      capacity: "1,200 CMX/year",
       status: "verified",
       credits: 850,
       operator: "GreenEnergy Corp",
@@ -54,7 +54,7 @@ const Projects = () => {
       name: "Wind Project Beta",
       type: "Wind Power",
       location: "Texas, USA",
-      capacity: "800 tCO2/year",
+      capacity: "800 CMX/year",
       status: "pending",
       credits: 0,
       operator: "WindTech Solutions",
@@ -63,7 +63,7 @@ const Projects = () => {
       name: "Forest Conservation",
       type: "Reforestation",
       location: "Brazil",
-      capacity: "2,000 tCO2/year",
+      capacity: "2,000 CMX/year",
       status: "verified",
       credits: 1450,
       operator: "EcoForest Initiative",
@@ -72,7 +72,7 @@ const Projects = () => {
       name: "Biogas Facility",
       type: "Methane Capture",
       location: "Denmark",
-      capacity: "600 tCO2/year",
+      capacity: "600 CMX/year",
       status: "under_review",
       credits: 0,
       operator: "BioGas Nordic",
@@ -202,7 +202,7 @@ const Projects = () => {
         name: projectName,
         type: projectType,
         location,
-        capacity: `${capacity} tCO2/year`,
+        capacity: `${capacity} CMX/year`,
         status: "pending",
         credits: 0,
         operator,
@@ -275,13 +275,14 @@ const Projects = () => {
               <Wallet className="mr-2 h-4 w-4" />
               {isConnected ? "Disconnect" : "Connect Wallet"}
             </Button>
-            <Button
-              onClick={() => setShowForm(true)}
+            {/* only admin can create a new project */}
+            {/* <Button
+              onClick={() => setShowForm(true)}r
               className="gradient-hero text-primary-foreground"
               disabled={!isConnected}
             >
               Submit New Project
-            </Button>
+            </Button> */}
           </div>
         </div>
 
@@ -330,7 +331,7 @@ const Projects = () => {
                   </div>
                   <div>
                     <Label htmlFor="capacity">
-                      Expected Capacity (tCO2/year)
+                      Expected Capacity (CMX/year)
                     </Label>
                     <Input
                       id="capacity"
@@ -449,7 +450,7 @@ const Projects = () => {
                 {project.status === "verified" && (
                   <div className="p-3 bg-success/10 rounded-lg border border-success/20">
                     <p className="text-sm font-medium text-success">
-                      Credits Available: {project.credits.toLocaleString()} tCO2
+                      Credits Available: {project.credits.toLocaleString()} CMX
                     </p>
                   </div>
                 )}

@@ -8,11 +8,17 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowDownRight, Shield, Lock, Calendar } from "lucide-react";
 import { abi } from "../constants/abi";
 import { ethers } from "ethers";
+import { Eye, EyeOff, RefreshCw } from "lucide-react";
 
 const Retire = () => {
   const [retireAmount, setRetireAmount] = useState("");
   const [reason, setReason] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingBalances, setIsLoadingBalances] = useState(false);
+  const [personalBalance, setPersonalBalance] = useState<number>(0);
+  const [projectBalance, setProjectBalance] = useState<number>(0);
+  const [balanceError, setBalanceError] = useState<string | null>(null);
+  const [showBalance, setShowBalance] = useState(true);
 
   // Wallet connection states
   const [account, setAccount] = useState<string | null>(null);
@@ -23,6 +29,77 @@ const Retire = () => {
 
   const availableCredits = 1250;
 
+  const toggleVisibility = (
+    setter: React.Dispatch<React.SetStateAction<boolean>>
+  ) => {
+    setter((prev) => !prev);
+  };
+
+  const formatBalance = (value: number, show: boolean) => {
+    return show ? `${value.toLocaleString()} CMX` : "••••••••";
+  };
+
+  // fetch balance
+  const fetchBalances = async () => {
+    if (!provider || !account) return;
+
+    setIsLoadingBalances(true);
+    setBalanceError(null);
+
+    try {
+      const signer = provider.getSigner();
+      const contractAddress = "0x682dc0bb02e7f985fe6861a5693d2dbd405f396e";
+
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+      const projectId = "project1";
+
+      //  get balance
+      const personalBal = await contract.getPersonalProjectBalance(projectId);
+      setPersonalBalance(parseFloat(ethers.utils.formatEther(personalBal)));
+
+      // Project Balance - this would depend on your contract structure
+      // You might have a separate method for project-generated credits
+      try {
+        const projectBal = await contract.getProjectBalance(projectId);
+        setProjectBalance(parseFloat(ethers.utils.formatEther(projectBal)));
+      } catch (error) {
+        // If projectBalanceOf doesn't exist, you might calculate it differently
+        console.log("Project balance method not available:", error);
+        setProjectBalance(0);
+      }
+
+      // Alternative approach if you have events to track retired credits
+      // You could query past events to calculate retired credits
+      /*
+          try {
+            const retiredEvents = await contract.queryFilter(
+              contract.filters.CreditsRetired(account),
+              0,
+              'latest'
+            );
+            const totalRetired = retiredEvents.reduce((sum, event) => {
+              return sum + parseFloat(ethers.utils.formatEther(event.args.amount));
+            }, 0);
+            setRetiredCredits(totalRetired);
+          } catch (error) {
+            console.log("Error fetching retired credits from events:", error);
+          }
+          */
+    } catch (error) {
+      console.error("Error fetching balances:", error);
+      // setBalanceError(
+      //   "Failed to fetch balances. Please check your connection."
+      // );
+    } finally {
+      setIsLoadingBalances(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isConnected && account && provider) {
+      fetchBalances();
+    }
+  }, [isConnected, account, provider]);
   useEffect(() => {
     checkMetamaskAndConnection();
   }, []);
@@ -48,19 +125,19 @@ const Retire = () => {
 
   const [retired, setRetired] = useState([
     {
-      amount: "25 tCO2",
+      amount: "25 CMX",
       reason: "Personal carbon footprint offset",
       date: "March 15, 2024",
       certificate: "RET-2024-001234",
     },
     {
-      amount: "150 tCO2",
+      amount: "150 CMX",
       reason: "Corporate sustainability commitment",
       date: "February 28, 2024",
       certificate: "RET-2024-001189",
     },
     {
-      amount: "50 tCO2",
+      amount: "50 CMX",
       reason: "Conference event compensation",
       date: "January 12, 2024",
       certificate: "RET-2024-000987",
@@ -83,22 +160,11 @@ const Retire = () => {
     try {
       const signer = provider.getSigner();
       // const contractAddress = "0x07dac1f0404152a86d1c1a20e3f5438bbb6a45e6";
-      const contractAddress = "0x3b6fe79938f3422bb1a3bf7c672067a83b3c762e";
+      // const contractAddress = "0x3b6fe79938f3422bb1a3bf7c672067a83b3c762e";
+      const contractAddress = "0x682dc0bb02e7f985fe6861a5693d2dbd405f396e";
 
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
-      // console.log("Calling verifyProject with:", retireAmount);
-      // console.log("Contract address:", contractAddress);
-      // console.log("Account:", account);
-      // console.log("Provider:", provider);
-      // console.log("Signer:", signer);
-
-      // retire credit function retireCredits
-      // await contract.retireCredits("project1").then((balance: any) => {
-      //   console.log("Project 1 balance:", balance.toString());
-      // });
-      // console.log("I have minted project1");
-      // Example params
       console.log("Retire amount:", retireAmount);
       console.log("Retire reason:", reason);
       const projectId = "project1";
@@ -164,7 +230,27 @@ const Retire = () => {
           <CardContent className="p-6">
             <div className="text-center">
               <h2 className="text-2xl font-bold text-primary mb-2">
-                {availableCredits.toLocaleString()} tCO2
+                {/* {availableCredits.toLocaleString()} CMX */}
+                {isLoadingBalances ? (
+                  <div className="flex items-center gap-2">
+                    <RefreshCw className="h-4 w-4 animate-spin" />
+                    Loading...
+                  </div>
+                ) : (
+                  formatBalance(personalBalance, showBalance)
+                )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => toggleVisibility(setShowBalance)}
+                  className="h-8 w-8 p-0 ml-5"
+                >
+                  {showBalance ? (
+                    <Eye className="h-4 w-4" />
+                  ) : (
+                    <EyeOff className="h-4 w-4" />
+                  )}
+                </Button>
               </h2>
               <p className="text-muted-foreground">Available for Retirement</p>
             </div>
@@ -182,7 +268,7 @@ const Retire = () => {
           <CardContent className="space-y-6">
             {/* Amount Input */}
             <div className="space-y-2">
-              <Label htmlFor="amount">Amount to Retire (tCO2)</Label>
+              <Label htmlFor="amount">Amount to Retire (CMX)</Label>
               <Input
                 id="amount"
                 type="number"
@@ -193,7 +279,7 @@ const Retire = () => {
                 max={availableCredits}
               />
               <p className="text-sm text-muted-foreground">
-                Max available: {availableCredits.toLocaleString()} tCO2
+                Max available: {availableCredits.toLocaleString()} CMX
               </p>
             </div>
 
