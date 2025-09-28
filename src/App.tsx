@@ -15,18 +15,9 @@ import { Web3ReactProvider } from "@web3-react/core";
 import { Web3Provider } from "@ethersproject/providers";
 import { ethers } from "ethers";
 
-// const getLibrary = (provider: any) => {
-//   return new Web3Provider(provider);
-// };
-
-// const getLibrary = (provider: any) => {
-//   return new ethers.providers.Web3Provider(provider);
-// };
-
 const queryClient = new QueryClient();
 
 const App = () => (
-  // <Web3ReactProvider getLibrary={getLibrary}>
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <Toaster />
@@ -59,7 +50,6 @@ const App = () => (
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
-  // </Web3ReactProvider>
 );
 
 export default App;

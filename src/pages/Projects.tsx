@@ -276,13 +276,14 @@ const Projects = () => {
               {isConnected ? "Disconnect" : "Connect Wallet"}
             </Button>
             {/* only admin can create a new project */}
-            {/* <Button
-              onClick={() => setShowForm(true)}r
+            <Button
+              onClick={() => setShowForm(true)}
+              r
               className="gradient-hero text-primary-foreground"
               disabled={!isConnected}
             >
               Submit New Project
-            </Button> */}
+            </Button>
           </div>
         </div>
 
