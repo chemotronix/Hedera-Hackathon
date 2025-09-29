@@ -9,7 +9,7 @@ import { abi } from "../constants/abi";
 import { ethers } from "ethers";
 import { Eye, EyeOff, RefreshCw } from "lucide-react";
 
-// Interface for transfer history item
+// Interface for transfer history ite
 interface TransferHistoryItem {
   type: "sent" | "received";
   amount: string;
