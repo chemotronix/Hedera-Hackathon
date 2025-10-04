@@ -1,9 +1,5 @@
 # 🌍 Chemotronix – Smart Contracts for Sustainable Energy (Hedera Hackathon Submission)
-🚀 Project Overview
-Chemotronix is building decentralized clean energy solutions using Hedera’s smart contracts.
-Our submission demonstrates how renewable energy transactions, carbon credits, and energy-sharing agreements can be securely managed on the Hedera network, ensuring transparency, traceability, and low-cost operations.
-
-We believe the future of clean energy depends on trustless systems that guarantee fairness, accountability, and efficiency—values that Hedera makes possible.
+## Project Overview: Chemotronix is building decentralized clean energy solutions using Hedera’s smart contracts. Our submission demonstrates how renewable energy transactions, carbon credits, and energy-sharing agreements can be securely managed on the Hedera network, ensuring transparency, traceability, and low-cost operations. We believe the future of clean energy depends on trustless systems that guarantee fairness, accountability, and efficiency—values that Hedera makes possible.
 
 ❓ Problem Statement
 Energy access in emerging markets faces challenges:
