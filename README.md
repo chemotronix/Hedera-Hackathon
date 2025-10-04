@@ -3,27 +3,27 @@
 Chemotronix is building decentralized clean energy solutions using Hedera’s smart contracts. Our submission demonstrates how renewable energy transactions, carbon credits, and energy-sharing agreements can be securely managed on the Hedera network, ensuring transparency, traceability, and low-cost operations. We believe the future of clean energy depends on trustless systems that guarantee fairness, accountability, and efficiency—values that Hedera makes possible. This project aims to create a smart carbon credit dashboard and utilizes AI/ML models to extract valuable insights. The project provides policymakers, NGOs, and other stakeholders with a platform to simulate interventions and assess their potential impact on the community as we build future cities. 
 
 ## Problem Statement
-Energy access in emerging markets faces challenges:
-i) Lack of transparent energy trading between producers and consumers.
-ii) High transaction costs for carbon credits and offtake agreements.
-iii) Limited trust in reporting and verification of clean energy impact.
+Energy access in emerging markets faces challenges:\
+i) Lack of transparent energy trading between producers and consumers.\
+ii) High transaction costs for carbon credits and offtake agreements.\
+iii) Limited trust in reporting and verification of clean energy impact.\
 
 ## Our Solution
-Chemotronix leverages Hedera smart contracts to:
-i) Enable peer-to-peer renewable energy trading between producers and consumers.
-ii) Automate Power Purchase Agreements (PPAs) and Offtake Agreements.
-iii) Issue digital carbon credits with embedded Monitoring, Reporting, and Verification (MRV).
-iv) Ensure auditable, immutable records of all transactions on Hedera.  
+Chemotronix leverages Hedera smart contracts to:\
+i) Enable peer-to-peer renewable energy trading between producers and consumers.\
+ii) Automate Power Purchase Agreements (PPAs) and Offtake Agreements.\
+iii) Issue digital carbon credits with embedded Monitoring, Reporting, and Verification (MRV).\
+iv) Ensure auditable, immutable records of all transactions on Hedera.  \
 This creates a scalable Energy + MRV + Carbon Credit ecosystem for both rural and urban communities.This project addresses this issue by enabling individuals and organizations offset their carbon footprint.
 
 ## Tech Stack
-i) Smart Contracts: Solidity on Hedera (Primary programming language for smart contract development).
-IPFS Decentralized storage for digital certificates
-ii) Blockchain Network: Hedera Hashgraph (Testnet)
-iii) Frontend: React.js + TailwindCSS
-iv) Backend: Node.js / Express
-v) Wallet Integration: HashConnect / Hedera SDK
-vi) Data Storage: IPFS + Hedera File Service (HFS)
+i) Smart Contracts: Solidity on Hedera (Primary programming language for smart contract development).\
+IPFS Decentralized storage for digital certificates\
+ii) Blockchain Network: Hedera Hashgraph (Testnet)\
+iii) Frontend: React.js + TailwindCSS\
+iv) Backend: Node.js / Express\
+v) Wallet Integration: HashConnect / Hedera SDK\
+vi) Data Storage: IPFS + Hedera File Service (HFS)\
 
 ### How It Works
 a) Energy Producer Registers: Farmers, mini-grid operators, or solar users register their energy capacity.
@@ -48,24 +48,24 @@ Hedera SDK
 HashConnect wallet
 Installation
 # Clone repo
-git clone https://github.com/chemotronix/Hedera-Hackathon
+git clone https://github.com/chemotronix/Hedera-Hackathon \
 cd Hedera-Hackathon
 # Install dependencies
 npm install
 # Run frontend
-cd frontend && npm start
-Deploy Smart Contracts
-cd contracts
-npx hardhat compile
-npx hardhat run scripts/deploy.js --network testnet
+cd frontend && npm start \
+Deploy Smart Contracts \
+cd contracts \
+npx hardhat compile \
+npx hardhat run scripts/deploy.js --network testnet \
 🎥 Demo
 Video Walkthrough (YouTube link)
 Live DApp (Testnet link)
 
-👥 Team Chemotronix
-Peace Bello – CEO, Clean Energy Systems & MRV Lead
-Oreoluwa Akinola - Smart Contract Engineer
-Joshua Akintemi - Full Stack Engineer
+# 👥 Team Chemotronix
+1. Peace Bello – CEO, Clean Energy Systems & MRV Lead
+2. Oreoluwa Akinola - Smart Contract Engineer
+3. Joshua Akintemi - Full Stack Engineer
 
 🙌 Acknowledgments
 Special thanks to Hedera Hackathon organizers, mentors, and community for support.
