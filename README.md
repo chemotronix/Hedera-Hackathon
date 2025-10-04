@@ -77,8 +77,9 @@ HashConnect wallet
 
 Installation
 # Clone repo
-git clone https://github.com/Chemotronix/hedera-smartcontracts.git
-cd hedera-smartcontracts
+git clone https://github.com/chemotronix/Hedera-Hackathon
+cd Hedera-Hackathon
+
 
 # Install dependencies
 npm install
@@ -97,7 +98,9 @@ Live DApp (Testnet link)
 👥 Team Chemotronix
 Peace Bello – CEO, Clean Energy Systems & MRV Lead
 
-[Add team members with roles]
+Oreoluwa Akinola - Smart Contract Engineer
+
+Joshua Akintemi - Full Stack Engineer
 
 🙌 Acknowledgments
 Special thanks to Hedera Hackathon organizers, mentors, and community for support.
