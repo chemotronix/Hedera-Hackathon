@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+smart contract files/.env
+smart contract files/cache
+smart contract files/lib
+smart contract files/out
+smart contract files/test
