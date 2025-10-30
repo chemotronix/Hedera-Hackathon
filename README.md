@@ -34,7 +34,7 @@ e) Immutable Record: Transactions and impact data are permanently stored on Hede
 
 ### Architecture
 [Producer/Consumer Wallets]  →  [Frontend DApp]  →  [Backend API]  →  [Hedera Smart Contracts]  →  [Hedera Consensus Service + HFS]
-A) Use Cases: Peer-to-Peer Clean Energy Trading, Transparent PPAs for Mini-Grids, Community Carbon Credit Markets, MRV-integrated Smart Contracts for Sustainable Development \
+A) Use Cases: Peer-to-Peer Clean Energy Trading, Transparent PPAs for Mini-Grids, Community Carbon Credit Markets, MRV-integrated Smart Contracts for Sustainable Development
 
 📂 Repository Structure \
 /contracts   → Solidity smart contracts for Hedera \
@@ -46,7 +46,7 @@ Prerequisites \
 Node.js v18+ \
 Hedera SDK \
 HashConnect wallet \
-Installation \
+Installation 
 # Clone repo
 git clone https://github.com/chemotronix/Hedera-Hackathon \
 cd Hedera-Hackathon
@@ -59,13 +59,13 @@ cd contracts \
 npx hardhat compile \
 npx hardhat run scripts/deploy.js --network testnet \
 🎥 Demo \
-Video Walkthrough (YouTube link) \
-Live DApp (Testnet link)
+Video Walkthrough ([YouTube link](https://youtu.be/e0aQW13iF_4?si=OeXjZDQHm4SfrZ4g)) \
+Live DApp ([Testnet link](https://youtu.be/e0aQW13iF_4?si=OeXjZDQHm4SfrZ4g))
 
 # 👥 Team Chemotronix
 1. Peace Bello – CEO, Clean Energy Systems & MRV Lead
 2. Oreoluwa Akinola - Smart Contract Engineer
-3. Joshua Akintemi - Full Stack Engineer \
+3. Joshua Akintemi - Full Stack Engineer
 
 Acknowledgments :Special thanks to Hedera Hackathon organizers, mentors, and community for support.
 
