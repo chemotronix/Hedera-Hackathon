@@ -1,6 +1,6 @@
 # 🌍 Chemotronix – Smart Contracts for Sustainable Energy (DLT Operations for Carbon Credits: Hedera Hackathon)
 ## Project Overview 
-Chemotronix is building decentralized clean energy solutions using Hedera’s smart contracts. Our submission demonstrates how renewable energy transactions, carbon credits, and energy-sharing agreements can be securely managed on the Hedera network, ensuring transparency, traceability, and low-cost operations. We believe the future of clean energy depends on trustless systems that guarantee fairness, accountability, and efficiency values that Hedera makes possible. This project aims to create a smart carbon credit dashboard and utilizes AI/ML models to extract valuable insights. The project provides policymakers, NGOs, and other stakeholders with a platform to simulate interventions and assess their potential impact on the community as we build future cities. 
+Chemotronix is building decentralized clean energy solutions using Hedera’s smart contracts. Our submission demonstrates how renewable energy transactions, carbon credits, and energy-sharing agreements can be securely managed on the Hedera network, ensuring transparency, traceability, and low-cost operations. We believe the future of clean energy depends on trustless systems that guarantee fairness, accountability, and efficiency values that Hedera makes possible. This project aims to create a smart carbon credit dashboard and utilizes AI/ML models to extract valuable insights. The project provides policymakers, NGOs, and other stakeholders with a platform to simulate interventions and assess their potential impact on the community as we build future cities. Chek out our website at www.chemotronix.org
 
 ## Problem Statement
 Energy access in emerging markets faces challenges:\
@@ -60,7 +60,7 @@ npx hardhat compile \
 npx hardhat run scripts/deploy.js --network testnet \
 
 🎥 Demo \
-Video Walkthrough ((https://youtu.be/e0aQW13iF_4?si=OeXjZDQHm4SfrZ4g)) \
+Video Walkthrough: https://youtu.be/LXgWDnsYPCE?si=byTckj7bBRa36GoQ\
 Pitch deck: https://drive.google.com/file/d/1JwD2G79tbcAOl4KBsIxXK0Ae0D4WbHcf/view?usp=sharing
 
 # 👥 Team Chemotronix
@@ -75,5 +75,6 @@ Acknowledgments :Special thanks to Hedera Hackathon organizers, mentors, and com
 i) Data Integration: Combining satellite imagery, GIS data (if available), and potentially smart payment data. \
 ii) 3D Representation: (Future Enhancement) Building a 3D model of the slum, including informal structures, utilities, and environmental features. Currently focuses on GIS layers. \
 iii) AI/ML Insights: Utilizing AI/ML to extract information from satellite imagery (e.g., object detection, land use classification, population density estimation) \
-iv) Simulation Capabilities: Allowing users to simulate interventions (e.g., adding solar panels, improving sanitation, providing access to clean water) and visualize the results using GeoPandas: For geospatial data manipulation and analysis, Scikit-learn: For machine learning models, TensorFlow/Keras: For deep learning (object detection), OpenCV (cv2): For image processing, QGIS: For data digitization and visualization), Unity3D or CesiumJS: Visualization platform.\
+iv) Simulation Capabilities: Allowing users to simulate interventions (e.g., adding solar panels, improving sanitation, providing access to clean water) and visualize the results using GeoPandas: For geospatial data manipulation and analysis, Scikit-learn: For machine learning models, TensorFlow/Keras: For deep learning (object detection), OpenCV (cv2): For image processing, QGIS: For data digitization and visualization), Unity3D or CesiumJS: Visualization platform.\ 
+
 Currently this project focuses on the data processing and AI/ML backend, the visualization component is for future work.
