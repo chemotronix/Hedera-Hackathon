@@ -18,7 +18,7 @@ This creates a scalable Energy + MRV + Carbon Credit ecosystem for both rural an
 
 ## Tech Stack
 i) Smart Contracts: Solidity (Primary programming language for smart contract development).\
-IPFS Decentralized storage for digital certificates.\ Foundry for smart contract deployment.\
+IPFS Decentralized storage for digital certificates.\Foundry for smart contract deployment.\
 ii) Blockchain Network: Hedera Hashgraph (Testnet)\
 iii) Frontend: React.js + TailwindCSS\
 iv) Backend: Node.js / Express\
