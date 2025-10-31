@@ -58,9 +58,10 @@ Deploy Smart Contracts \
 cd contracts \
 npx hardhat compile \
 npx hardhat run scripts/deploy.js --network testnet \
+
 🎥 Demo \
-Video Walkthrough ([YouTube link](https://youtu.be/e0aQW13iF_4?si=OeXjZDQHm4SfrZ4g)) \
-Live DApp ([Testnet link](https://youtu.be/e0aQW13iF_4?si=OeXjZDQHm4SfrZ4g))
+Video Walkthrough ((https://youtu.be/e0aQW13iF_4?si=OeXjZDQHm4SfrZ4g)) \
+Pitch deck: https://drive.google.com/file/d/1JwD2G79tbcAOl4KBsIxXK0Ae0D4WbHcf/view?usp=sharing
 
 # 👥 Team Chemotronix
 1. Peace Bello – CEO, Clean Energy Systems & MRV Lead
@@ -74,6 +75,5 @@ Acknowledgments :Special thanks to Hedera Hackathon organizers, mentors, and com
 i) Data Integration: Combining satellite imagery, GIS data (if available), and potentially smart payment data. \
 ii) 3D Representation: (Future Enhancement) Building a 3D model of the slum, including informal structures, utilities, and environmental features. Currently focuses on GIS layers. \
 iii) AI/ML Insights: Utilizing AI/ML to extract information from satellite imagery (e.g., object detection, land use classification, population density estimation) \
-iv) Simulation Capabilities: Allowing users to simulate interventions (e.g., adding solar panels, improving sanitation, providing access to clean water) and visualize the results using GeoPandas: For geospatial data manipulation and analysis, Scikit-learn: For machine learning models, TensorFlow/Keras: For deep learning (object detection), OpenCV (cv2): For image processing, QGIS: For data digitization and visualization). \
-Unity3D or CesiumJS: Visualization platform .
-Currently this project focuses on the data processing and AI/ML backend, the visualization component is for future work.*
+iv) Simulation Capabilities: Allowing users to simulate interventions (e.g., adding solar panels, improving sanitation, providing access to clean water) and visualize the results using GeoPandas: For geospatial data manipulation and analysis, Scikit-learn: For machine learning models, TensorFlow/Keras: For deep learning (object detection), OpenCV (cv2): For image processing, QGIS: For data digitization and visualization), Unity3D or CesiumJS: Visualization platform.\
+Currently this project focuses on the data processing and AI/ML backend, the visualization component is for future work.
